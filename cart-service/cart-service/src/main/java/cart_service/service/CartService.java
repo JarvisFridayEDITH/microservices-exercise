@@ -29,22 +29,5 @@ public class CartService {
     public void deleteCart(int id) {
         cartRepository.deleteById(id);
     }
-    public Page<Product> getProductsWithPagination(int page, int size, String sortBy) {
-
-    Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
-
-    Page<Product> productPage = productRepository.findAll(pageable);
-
-    List<Product> filtered = productPage.getContent()
-            .stream()
-            .filter(p -> p.getStock() > 0)
-            .map(p -> {
-                p.setName(p.getName().toUpperCase());
-                return p;
-            })
-            .toList();
-
-    return new PageImpl<>(filtered, pageable, filtered.size());
-   }
 
 }
