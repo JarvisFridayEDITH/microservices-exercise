@@ -1,0 +1,48 @@
+package cart_service.controller;
+
+import cart_service.entity.Cart;
+import cart_service.service.CartService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/cart")
+public class CartController {
+
+    @Autowired
+    private CartService cartService;
+
+    // GET all carts
+    @GetMapping
+    public List<Cart> getAllCarts() {
+        return cartService.getAllCarts();
+    }
+
+    // GET cart by ID
+    @GetMapping("/{id}")
+    public Optional<Cart> getCartById(@PathVariable int id) {
+        return cartService.getCartById(id);
+    }
+
+    // CREATE cart
+    @PostMapping
+    public Cart createCart(@RequestBody Cart cart) {
+        return cartService.saveCart(cart);
+    }
+
+    // UPDATE cart
+    @PutMapping("/{id}")
+    public Cart updateCart(@PathVariable int id, @RequestBody Cart cart) {
+        cart.setId(id);
+        return cartService.saveCart(cart);
+    }
+
+    // DELETE cart
+    @DeleteMapping("/{id}")
+    public void deleteCart(@PathVariable int id) {
+        cartService.deleteCart(id);
+    }
+}

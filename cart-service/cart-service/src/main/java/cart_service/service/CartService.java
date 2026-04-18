@@ -1,6 +1,6 @@
 package cart_service.service;
 
-import cart_service.entiy.Cart;
+import cart_service.entity.Cart;
 import cart_service.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

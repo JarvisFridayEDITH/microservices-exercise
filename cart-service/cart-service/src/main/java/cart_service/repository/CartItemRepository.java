@@ -1,6 +1,6 @@
 package cart_service.repository;
 
-import cart_service.entiy.CartItem;
+import cart_service.entity.CartItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

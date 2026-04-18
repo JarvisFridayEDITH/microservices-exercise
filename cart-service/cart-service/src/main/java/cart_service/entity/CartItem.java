@@ -1,6 +1,7 @@
-package cart_service.entiy;
+package cart_service.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,12 +11,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Cart {
+public class CartItem {
+    
     @Id
-    int id;
-    int userid;
-
-
-
+    @GeneratedValue
+    Integer id;
+    int cartId;
+    int productId;
+    int quantity;
+    
 
 }
