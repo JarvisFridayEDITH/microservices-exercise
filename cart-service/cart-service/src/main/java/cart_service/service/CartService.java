@@ -4,6 +4,8 @@ import cart_service.entity.Cart;
 import cart_service.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.*;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +15,21 @@ public class CartService {
 
     @Autowired
     private CartRepository cartRepository;
+
+    public Page<Cart> getCartsWithPagination(int page, int size, String sortBy) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+
+        Page<Cart> cartPage = cartRepository.findAll(pageable);
+
+        // Java Streams example
+        List<Cart> filtered = cartPage.getContent()
+                .stream()
+                .filter(c -> c.getUserid() > 0) // basic filter
+                .toList();
+
+        return new PageImpl<>(filtered, pageable, filtered.size());
+    }
 
     public List<Cart> getAllCarts() {
         return cartRepository.findAll();

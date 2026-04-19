@@ -2,14 +2,11 @@ package product_service.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import product_service.entity.Product;
 import product_service.service.ProductService;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -19,13 +16,23 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    // GET all products with pagination, sorting, and optional filtering
+    // GET all products
     @GetMapping
-    public Page<Map<String, Object>> getAllProducts(@PageableDefault(size = 10, sort = "id") Pageable pageable, @RequestParam(required = false) String name) {
-        return productService.getAllProducts(pageable, name);
+    public List<Product> getAllProducts() {
+        return productService.getAllProducts();
     }
 
-    // GET product by id
+    // GET paginated products
+    @GetMapping("/paged")
+    public Page<Product> getProductsPaged(
+            @RequestParam int page,
+            @RequestParam int size,
+            @RequestParam String sortBy
+    ) {
+        return productService.getProductsWithPagination(page, size, sortBy);
+    }
+
+    // GET product by ID
     @GetMapping("/{id}")
     public Optional<Product> getProductById(@PathVariable int id) {
         return productService.getProductById(id);

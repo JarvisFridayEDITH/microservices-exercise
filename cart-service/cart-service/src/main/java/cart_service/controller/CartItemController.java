@@ -3,6 +3,7 @@ package cart_service.controller;
 import cart_service.entity.CartItem;
 import cart_service.service.CartItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +19,14 @@ public class CartItemController {
     @GetMapping
     public List<CartItem> getAllCartItems() {
         return cartItemService.getAllCartItems();
+    }
+    @GetMapping("/paged")
+    public Page<CartItem> getCartItemsPaged(
+            @RequestParam int page,
+            @RequestParam int size,
+            @RequestParam String sortBy
+    ) {
+        return cartItemService.getCartItemsWithPagination(page, size, sortBy);
     }
 
     @GetMapping("/{id}")
