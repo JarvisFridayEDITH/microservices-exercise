@@ -3,9 +3,8 @@ package cart_service.service;
 import cart_service.entity.Cart;
 import cart_service.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.data.domain.*;
-
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,21 +15,7 @@ public class CartService {
     @Autowired
     private CartRepository cartRepository;
 
-    public Page<Cart> getCartsWithPagination(int page, int size, String sortBy) {
-
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
-
-        Page<Cart> cartPage = cartRepository.findAll(pageable);
-
-        // Java Streams example
-        List<Cart> filtered = cartPage.getContent()
-                .stream()
-                .filter(c -> c.getUserid() > 0) // basic filter
-                .toList();
-
-        return new PageImpl<>(filtered, pageable, filtered.size());
-    }
-
+    // Existing methods
     public List<Cart> getAllCarts() {
         return cartRepository.findAll();
     }
@@ -46,22 +31,24 @@ public class CartService {
     public void deleteCart(int id) {
         cartRepository.deleteById(id);
     }
-    public Page<Product> getProductsWithPagination(int page, int size, String sortBy) {
 
-    Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+    //  Pagination + Sorting + Streams (FILTER + MAP)
+    public Page<Cart> getCartsWithPagination(int page, int size, String sortBy) {
 
-    Page<Product> productPage = productRepository.findAll(pageable);
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
 
-    List<Product> filtered = productPage.getContent()
-            .stream()
-            .filter(p -> p.getStock() > 0)
-            .map(p -> {
-                p.setName(p.getName().toUpperCase());
-                return p;
-            })
-            .toList();
+        Page<Cart> cartPage = cartRepository.findAll(pageable);
 
-    return new PageImpl<>(filtered, pageable, filtered.size());
-   }
+        List<Cart> filtered = cartPage.getContent()
+                .stream()
+                .filter(c -> c.getUserid() > 0)   // filtering
+                .map(c -> {
+                    // transformation (simple example)
+                    c.setUserid(c.getUserid());
+                    return c;
+                })
+                .toList();
 
+        return new PageImpl<>(filtered, pageable, filtered.size());
+    }
 }

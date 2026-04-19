@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/V1")
 public class ProductController {
 
     @Autowired
@@ -39,7 +39,7 @@ public class ProductController {
     }
 
     // CREATE product
-    @PostMapping
+    @PostMapping("/products")
     public Product createProduct(@RequestBody Product product) {
         return productService.saveProduct(product);
     }

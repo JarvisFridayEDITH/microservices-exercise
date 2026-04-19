@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "product", schema = "dbo")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
