@@ -31,6 +31,10 @@ public class ProductService {
 
         return new PageImpl<>(filtered, pageable, filtered.size());
     }
+    // Add this method to your existing ProductService class
+    public List<Product> getProductsAbovePrice(Double minPrice) {
+        return productRepository.findProductsAbovePrice(minPrice);
+    }
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }

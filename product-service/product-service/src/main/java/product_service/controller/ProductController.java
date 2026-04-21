@@ -32,6 +32,12 @@ public class ProductController {
         return productService.getProductsWithPagination(page, size, sortBy);
     }
 
+    // Add this method to your existing ProductController class
+    @GetMapping("/above-price")
+    public List<Product> getProductsAbovePrice(@RequestParam Double minPrice) {
+        return productService.getProductsAbovePrice(minPrice);
+    }
+
     // GET product by ID
     @GetMapping("/{id}")
     public Optional<Product> getProductById(@PathVariable int id) {
