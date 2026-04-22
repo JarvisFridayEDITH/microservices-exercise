@@ -28,6 +28,11 @@ public class CartItemController {
     ) {
         return cartItemService.getCartItemsWithPagination(page, size, sortBy);
     }
+    // Add to existing CartItemController
+    @GetMapping("/by-cart/{cartId}")
+    public List<CartItem> getItemsByCartId(@PathVariable int cartId) {
+        return cartItemService.getItemsByCartId(cartId);
+    }
 
     @GetMapping("/{id}")
     public Optional<CartItem> getCartItemById(@PathVariable int id) {

@@ -1,15 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="7fb5c363-7241-4246-aec9-c9c1b44636d3" name="Changes" comment="" />
+    <list default="true" id="7fb5c363-7241-4246-aec9-c9c1b44636d3" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cart-service/src/main/java/cart_service/controller/CartController.java" beforeDir="false" afterPath="$PROJECT_DIR$/cart-service/src/main/java/cart_service/controller/CartController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cart-service/src/main/java/cart_service/controller/CartItemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/cart-service/src/main/java/cart_service/controller/CartItemController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cart-service/src/main/java/cart_service/entity/Cart.java" beforeDir="false" afterPath="$PROJECT_DIR$/cart-service/src/main/java/cart_service/entity/Cart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cart-service/src/main/java/cart_service/entity/CartItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/cart-service/src/main/java/cart_service/entity/CartItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cart-service/src/main/java/cart_service/repository/CartItemRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/cart-service/src/main/java/cart_service/repository/CartItemRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cart-service/src/main/java/cart_service/repository/CartRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/cart-service/src/main/java/cart_service/repository/CartRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cart-service/src/main/java/cart_service/service/CartItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/cart-service/src/main/java/cart_service/service/CartItemService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cart-service/src/main/java/cart_service/service/CartService.java" beforeDir="false" afterPath="$PROJECT_DIR$/cart-service/src/main/java/cart_service/service/CartService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../product-service/product-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../product-service/product-service/src/main/resources/application.properties" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 6
-}]]></component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_C:/Users/srina/OneDrive/Desktop/microservices-exercise/cart-service" value="3CEm0CRBOyUxNu50mwwDWzROeZL" />
+    </persistenceIdMap>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;JarvisFridayEDITH&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/JarvisFridayEDITH/microservices-exercise.git&quot;,
+    &quot;accountId&quot;: &quot;10cbf78b-55a9-4db1-b71b-64f156804d1c&quot;
+  }
+}</component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
   <component name="ProjectId" id="3CEm0CRBOyUxNu50mwwDWzROeZL" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -18,9 +56,15 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.MCP Project settings loaded": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/srina/Downloads/cart-service"
+    "last_opened_file_path": "C:/Users/srina/OneDrive/Desktop/microservices-exercise/cart-service",
+    "settings.editor.selected.configurable": "reference.projectsettings.compiler.annotationProcessors"
   }
 }]]></component>
   <component name="SharedIndexes">
@@ -39,5 +83,17 @@
       <updated>1775958879567</updated>
     </task>
     <servers />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
   </component>
 </project>

@@ -2,6 +2,7 @@ package product_service.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import product_service.entity.Product;
 import product_service.service.ProductService;
@@ -39,9 +40,12 @@ public class ProductController {
     }
 
     // GET product by ID
+    // Replace existing getProductById with this
     @GetMapping("/{id}")
-    public Optional<Product> getProductById(@PathVariable int id) {
-        return productService.getProductById(id);
+    public ResponseEntity<Product> getProductById(@PathVariable int id) {
+        return productService.getProductById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     // CREATE product

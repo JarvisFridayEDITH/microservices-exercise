@@ -30,6 +30,22 @@ public class CartController {
     ) {
         return cartService.getCartsWithPagination(page, size, sortBy);
     }
+    // Add to existing CartController
+    @GetMapping("/by-user/{userId}")
+    public List<Cart> getCartsByUserId(@PathVariable int userId) {
+        return cartService.getCartsByUserId(userId);
+    }
+    // Add this endpoint to existing CartController
+    @PostMapping("/add-to-cart/{productId}")
+    public Cart addToCart(@RequestBody Cart cart, @PathVariable int productId) {
+        return cartService.addToCart(cart, productId);
+    }
+
+    // Also fix the PUT method
+    @PutMapping("/{id}")
+    public Cart updateCart(@PathVariable int id, @RequestBody Cart cart) {
+        return cartService.updateCart(id, cart);
+    }
 
     // GET cart by ID
     @GetMapping("/{id}")
@@ -43,12 +59,6 @@ public class CartController {
         return cartService.saveCart(cart);
     }
 
-    // UPDATE cart
-    @PutMapping("/{id}")
-    public Cart updateCart(@PathVariable int id, @RequestBody Cart cart) {
-        cart.setId(id);
-        return cartService.saveCart(cart);
-    }
 
     // DELETE cart
     @DeleteMapping("/{id}")

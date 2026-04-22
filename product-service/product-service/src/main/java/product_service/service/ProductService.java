@@ -23,13 +23,10 @@ public class ProductService {
         List<Product> filtered = productPage.getContent()
                 .stream()
                 .filter(p -> p.getStock() > 0)
-                .map(p -> {
-                    p.setName(p.getName().toUpperCase());
-                    return p;
-                })
+                .peek(p -> p.setName(p.getName().toUpperCase()))
                 .toList();
 
-        return new PageImpl<>(filtered, pageable, filtered.size());
+        return new PageImpl<>(filtered, pageable, productPage.getTotalElements());
     }
     // Add this method to your existing ProductService class
     public List<Product> getProductsAbovePrice(Double minPrice) {
