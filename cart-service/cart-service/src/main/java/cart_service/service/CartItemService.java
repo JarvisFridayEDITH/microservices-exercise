@@ -1,8 +1,10 @@
 package cart_service.service;
 
 import cart_service.client.ProductClient;
+import cart_service.dto.CartEvent;
 import cart_service.dto.ProductResponse;
 import cart_service.entity.CartItem;
+import cart_service.kafka.CartEventProducer;
 import cart_service.repository.CartItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -20,6 +22,9 @@ public class CartItemService {
     @Autowired
     private ProductClient productClient;
 
+    @Autowired
+    private CartEventProducer cartEventProducer;
+
     public List<CartItem> getAllCartItems() {
         return cartItemRepository.findAll();
     }
@@ -28,8 +33,6 @@ public class CartItemService {
         return cartItemRepository.findById(id);
     }
 
-
-    // Validates product exists + stock sufficient before saving
     public CartItem saveCartItem(CartItem cartItem) {
 
         // Step 1: Call Product Service
@@ -41,7 +44,7 @@ public class CartItemService {
                     + cartItem.getProductId());
         }
 
-        // Step 3: Validate stock is sufficient
+        // Step 3: Validate stock
         if (product.getStock() < cartItem.getQuantity()) {
             throw new RuntimeException("Insufficient stock for product: "
                     + product.getName()
@@ -49,7 +52,18 @@ public class CartItemService {
                     + ", Available: " + product.getStock());
         }
 
-        return cartItemRepository.save(cartItem);
+        // Step 4: Save cart item
+        CartItem saved = cartItemRepository.save(cartItem);
+
+        // Step 5: Publish Kafka event
+        CartEvent event = new CartEvent(
+                cartItem.getCartId(),
+                cartItem.getProductId(),
+                cartItem.getQuantity()
+        );
+        cartEventProducer.sendCartEvent(event);
+
+        return saved;
     }
 
     public void deleteCartItem(int id) {
