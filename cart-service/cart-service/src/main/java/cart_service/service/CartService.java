@@ -6,6 +6,8 @@ import cart_service.entity.Cart;
 import cart_service.entity.CartItem;
 import cart_service.repository.CartRepository;
 import cart_service.service.CartItemService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,8 @@ public class CartService {
     @Autowired
     private CartItemService cartItemService;
 
+    private static final Logger log = LoggerFactory.getLogger(CartService.class);
+
     public List<Cart> getAllCarts() {
         return cartRepository.findAll();
     }
@@ -42,10 +46,23 @@ public class CartService {
     }
 
     // Updated: Now creates a CartItem with full validation (existence + stock)
-    public CartItem addToCart(CartItem cartItem) {
-        // Delegate to CartItemService for validation and saving
-        return cartItemService.saveCartItem(cartItem);
+    // Fix in CartService.java - change the method signature
+    public Cart addToCart(Cart cart, int productId) {
+
+        // Step 1: Call Product Service
+        ProductResponse product = productClient.getProductById(productId);
+
+        // Step 2: Validate product exists
+        if (product == null) {
+            log.error("Cannot create cart. Product not found with ID: {}", productId);
+            throw new RuntimeException("Cannot create cart. Product not found with ID: "
+                    + productId);
+        }
+
+        log.info("Product validated for cart: {}", product.getName());
+        return cartRepository.save(cart);
     }
+
 
     public Page<Cart> getCartsWithPagination(int page, int size, String sortBy) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));

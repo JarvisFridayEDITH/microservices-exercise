@@ -6,6 +6,8 @@ import cart_service.dto.ProductResponse;
 import cart_service.entity.CartItem;
 import cart_service.kafka.CartEventProducer;
 import cart_service.repository.CartItemRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.scheduling.annotation.Async;
@@ -17,6 +19,8 @@ import java.util.concurrent.CompletableFuture;
 
 @Service
 public class CartItemService {
+
+    private static final Logger log = LoggerFactory.getLogger(CartItemService.class);
 
     @Autowired
     private CartItemRepository cartItemRepository;
@@ -35,60 +39,60 @@ public class CartItemService {
         return cartItemRepository.findById(id);
     }
 
-    // 1K - Async parallel execution using CompletableFuture
     public CartItem saveCartItem(CartItem cartItem) {
 
-        // Step 1: Run fetch and validation IN PARALLEL
+        log.info("Saving cart item - productId: {}, quantity: {}",
+                cartItem.getProductId(), cartItem.getQuantity());
+
         CompletableFuture<ProductResponse> fetchProduct = CompletableFuture.supplyAsync(() -> {
-            System.out.println("Fetching product on thread: "
-                    + Thread.currentThread().getName());
+            log.info("Fetching product on thread: {}", Thread.currentThread().getName());
             return productClient.getProductById(cartItem.getProductId());
         });
 
         CompletableFuture<Void> validateStock = fetchProduct.thenAcceptAsync(product -> {
-            System.out.println("Validating stock on thread: "
-                    + Thread.currentThread().getName());
+            log.info("Validating stock on thread: {}", Thread.currentThread().getName());
 
-            // Validate product exists
             if (product == null) {
+                log.error("Product not found with ID: {}", cartItem.getProductId());
                 throw new RuntimeException("Product not found with ID: "
                         + cartItem.getProductId());
             }
 
-            // Validate stock
             if (product.getStock() < cartItem.getQuantity()) {
+                log.error("Insufficient stock - requested: {}, available: {}",
+                        cartItem.getQuantity(), product.getStock());
                 throw new RuntimeException("Insufficient stock for product: "
                         + product.getName()
                         + ". Requested: " + cartItem.getQuantity()
                         + ", Available: " + product.getStock());
             }
+
+            log.info("Stock validation passed for product: {}", product.getName());
         });
 
-        // Step 2: Wait for both to complete
         try {
             CompletableFuture.allOf(fetchProduct, validateStock).join();
         } catch (Exception e) {
             throw new RuntimeException(e.getCause().getMessage());
         }
 
-        // Step 3: Save cart item
         CartItem saved = cartItemRepository.save(cartItem);
+        log.info("Cart item saved successfully with id: {}", saved.getId());
 
-        // Step 4: Publish Kafka event
         CartEvent event = new CartEvent(
                 cartItem.getCartId(),
                 cartItem.getProductId(),
                 cartItem.getQuantity()
         );
         cartEventProducer.sendCartEvent(event);
+        log.info("Kafka event published for cartId: {}", cartItem.getCartId());
 
         return saved;
     }
 
-    // 1K - Async method to fetch product details
     @Async("taskExecutor")
     public CompletableFuture<ProductResponse> fetchProductAsync(int productId) {
-        System.out.println("Async fetch on thread: " + Thread.currentThread().getName());
+        log.info("Async fetch on thread: {}", Thread.currentThread().getName());
         ProductResponse product = productClient.getProductById(productId);
         return CompletableFuture.completedFuture(product);
     }
