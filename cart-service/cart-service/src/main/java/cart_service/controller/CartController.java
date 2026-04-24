@@ -1,6 +1,7 @@
 package cart_service.controller;
 
 import cart_service.entity.Cart;
+import cart_service.entity.CartItem;
 import cart_service.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,15 +31,17 @@ public class CartController {
     ) {
         return cartService.getCartsWithPagination(page, size, sortBy);
     }
+
     // Add to existing CartController
     @GetMapping("/by-user/{userId}")
     public List<Cart> getCartsByUserId(@PathVariable int userId) {
         return cartService.getCartsByUserId(userId);
     }
-    // Add this endpoint to existing CartController
-    @PostMapping("/add-to-cart/{productId}")
-    public Cart addToCart(@RequestBody Cart cart, @PathVariable int productId) {
-        return cartService.addToCart(cart, productId);
+
+    // Updated: Now adds a CartItem (with validation) instead of just creating a Cart
+    @PostMapping("/add-to-cart")
+    public CartItem addToCart(@RequestBody CartItem cartItem) {
+        return cartService.addToCart(cartItem);
     }
 
     // Also fix the PUT method
@@ -58,7 +61,6 @@ public class CartController {
     public Cart createCart(@RequestBody Cart cart) {
         return cartService.saveCart(cart);
     }
-
 
     // DELETE cart
     @DeleteMapping("/{id}")

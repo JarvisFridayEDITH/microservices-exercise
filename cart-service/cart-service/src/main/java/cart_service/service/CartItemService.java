@@ -28,6 +28,7 @@ public class CartItemService {
         return cartItemRepository.findById(id);
     }
 
+
     // Validates product exists + stock sufficient before saving
     public CartItem saveCartItem(CartItem cartItem) {
 
